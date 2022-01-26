@@ -15,8 +15,8 @@ class CreatePriceTrendsTable extends Migration
     {
         Schema::create('price_trends', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('area_detail_id')->nullable(false)->index('area_detail_id');
-            $table->unsignedInteger('value')->nullable(false);
+            $table->unsignedBigInteger('area_detail_id')->index('area_detail_id');
+            $table->unsignedInteger('value');
             $table->timestamps();
         });
     }

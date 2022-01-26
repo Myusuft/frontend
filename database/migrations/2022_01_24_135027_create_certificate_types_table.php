@@ -18,7 +18,7 @@ class CreateCertificateTypesTable extends Migration
             $table->string('name', 191)->unique()->nullable(false);
             $table->text('description')->nullable();
             $table->timestamps();
-            
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

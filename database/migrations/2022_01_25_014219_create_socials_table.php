@@ -15,10 +15,11 @@ class CreateSocialsTable extends Migration
     {
         Schema::create('socials', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->nullable(false)->index('user_id');
+            $table->unsignedBigInteger('user_id')->index('user_id');
             $table->string('provider_id', 191)->nullable();
             $table->string('provider_name', 191)->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

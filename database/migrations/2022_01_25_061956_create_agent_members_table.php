@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArticlesTable extends Migration
+class CreateAgentMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('agent_members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
-            $table->string('title', 191);
-            $table->text('article');
-            $table->string('image_cover', 191);
-            $table->string('slug', 191)->unique();
+            $table->unsignedBigInteger('agent_id')->index('agent_id');
+            $table->unsignedBigInteger('agent_office_id')->index('agent_office_id');
+            $table->string('role',191);
+            $table->boolean('is_approved')->default(0);
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('agent_members');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMessagesTable extends Migration
+class CreateDeveloperTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('developer_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_form_id')->nullable()->index('user_form_id');
-            $table->unsignedBigInteger('user_to_id')->index('user_to_id');
-            $table->text('value');
+            $table->string('name', 191);
+            $table->string('description', 191)->nullable();
+            $table->unsignedTinyInteger('deadline');
             $table->string('status', 191);
+            $table->unsignedInteger('price');
             $table->timestamps();
             $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
@@ -31,6 +32,6 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('developer_types');
     }
 }

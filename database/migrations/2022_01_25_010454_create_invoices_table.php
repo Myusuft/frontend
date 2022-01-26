@@ -15,23 +15,24 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->nullable(false)->index('user_id');
-            $table->string('invoice_code', 191)->nullable(false);
-            $table->string('name', 191)->nullable(false);
-            $table->string('email', 191)->nullable(false);
-            $table->string('phone', 20)->nullable(false);
-            $table->string('status', 191)->nullable(false);
+            $table->unsignedBigInteger('user_id')->index('user_id');
+            $table->string('invoice_code', 191);
+            $table->string('name', 191);
+            $table->string('email', 191);
+            $table->string('phone', 20);
+            $table->string('status', 191);
             $table->text('address')->nullable();
-            $table->string('pay_method', 191)->nullable(false);
-            $table->string('package', 191)->nullable(false);
-            $table->unsignedInteger('validity_periode')->nullable(false);
-            $table->string('role_for', 191)->nullable(false);
+            $table->string('pay_method', 191);
+            $table->string('package', 191);
+            $table->unsignedInteger('validity_periode');
+            $table->string('role_for', 191);
             $table->text('note')->nullable();
-            $table->unsignedInteger('price')->nullable(false);
-            $table->float('discount')->nullable(false);
-            $table->unsignedInteger('tpta;')->nullable(false);
-            $table->date('expired_package_at')->nullable(false);
+            $table->unsignedInteger('price');
+            $table->float('discount');
+            $table->unsignedInteger('tpta;');
+            $table->date('expired_package_at');
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

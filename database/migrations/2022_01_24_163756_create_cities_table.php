@@ -15,10 +15,11 @@ class CreateCitiesTable extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('province_id')->nullable(false)->index('province_id');
-            $table->unsignedBigInteger('area_detail_id')->nullable(false)->index('area_detail_id');
-            $table->string('name', 191)->nullable(false);
+            $table->unsignedBigInteger('province_id')->index('province_id');
+            $table->unsignedBigInteger('area_detail_id')->index('area_detail_id');
+            $table->string('name', 191);
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

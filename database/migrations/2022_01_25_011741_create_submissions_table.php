@@ -15,12 +15,12 @@ class CreateSubmissionsTable extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->nullable(false)->index('user_id');
-            $table->string('name', 191)->nullable(false);
-            $table->string('email', 191)->nullable(false);
-            $table->string('phone', 20)->nullable(false);
-            $table->string('neceessity', 191)->nullable(false);
-            $table->string('status', 191)->nullable(false);
+            $table->unsignedBigInteger('user_id')->index('user_id');
+            $table->string('name', 191);
+            $table->string('email', 191);
+            $table->string('phone', 20);
+            $table->string('neceessity', 191);
+            $table->string('status', 191);
             $table->string('package', 191)->nullable();
             $table->unsignedInteger('price')->nullable();
             $table->text('note_user')->nullable();
@@ -28,6 +28,7 @@ class CreateSubmissionsTable extends Migration
             $table->string('submission_for', 191)->nullable();
             $table->date('expired_at')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

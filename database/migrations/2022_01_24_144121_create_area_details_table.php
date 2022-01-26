@@ -15,20 +15,21 @@ class CreateAreaDetailsTable extends Migration
     {
         Schema::create('area_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('large')->nullable(false);
-            $table->unsignedInteger('population');
-            $table->unsignedInteger('shopping_center');
-            $table->unsignedInteger('tourist_attraction');
-            $table->unsignedInteger('worship_place');
-            $table->unsignedInteger('income_percapita');
-            $table->unsignedInteger('park');
-            $table->unsignedInteger('hospital');
-            $table->unsignedInteger('school');
-            $table->unsignedInteger('airport');
-            $table->unsignedInteger('station');
-            $table->unsignedInteger('harbor');
-            $table->unsignedInteger('Image_cover');
+            $table->unsignedInteger('large');
+            $table->unsignedInteger('population')->nullable();
+            $table->unsignedInteger('shopping_center')->nullable();
+            $table->unsignedInteger('tourist_attraction')->nullable();
+            $table->unsignedInteger('worship_place')->nullable();
+            $table->unsignedInteger('income_percapita')->nullable();
+            $table->unsignedInteger('park')->nullable();
+            $table->unsignedInteger('hospital')->nullable();
+            $table->unsignedInteger('school')->nullable();
+            $table->unsignedInteger('airport')->nullable();
+            $table->unsignedInteger('station')->nullable();
+            $table->unsignedInteger('harbor')->nullable();
+            $table->unsignedInteger('Image_cover')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

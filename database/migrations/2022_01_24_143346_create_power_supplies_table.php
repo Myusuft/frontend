@@ -15,8 +15,9 @@ class CreatePowerSuppliesTable extends Migration
     {
         Schema::create('power_supplies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('value', 191)->unique()->nullable(false);
+            $table->string('value', 191)->unique();
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

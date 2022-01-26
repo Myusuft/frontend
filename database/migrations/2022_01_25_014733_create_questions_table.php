@@ -15,9 +15,10 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->nullable(false)->index('user_id');
-            $table->string('question', 191)->nullable(false);
+            $table->unsignedBigInteger('user_id')->index('user_id');
+            $table->string('question', 191);
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

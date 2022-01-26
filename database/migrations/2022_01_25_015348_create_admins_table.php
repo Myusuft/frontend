@@ -15,10 +15,11 @@ class CreateAdminsTable extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->nullable(false)->index('user_id');
+            $table->unsignedBigInteger('user_id')->index('user_id');
             $table->string('position', 191)->nullable();
             $table->string('division', 191)->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

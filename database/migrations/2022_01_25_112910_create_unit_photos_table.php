@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnswersTable extends Migration
+class CreateUnitPhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::create('answers', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->index('user_id');
-            $table->unsignedBigInteger('question_id')->index('questions');
-            $table->string('answer', 191);
+        Schema::create('unit_photos', function (Blueprint $table) {
+            $table->unsignedBigInteger('id');
+            $table->unsignedBigInteger('unit_id')->index('unit_id');
+            $table->string('name', 191);
+            $table->string('file', 191);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('answers');
+        Schema::dropIfExists('unit_photos');
     }
 }

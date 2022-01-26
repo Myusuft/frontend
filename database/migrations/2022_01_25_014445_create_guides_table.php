@@ -15,11 +15,12 @@ class CreateGuidesTable extends Migration
     {
         Schema::create('guides', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->nullable(false)->index('user_id');
-            $table->string('title', 191)->nullable(false);
-            $table->text('guide')->nullable(false);
-            $table->string('category', 191)->nullable(false);
+            $table->unsignedBigInteger('user_id')->index('user_id');
+            $table->string('title', 191);
+            $table->text('guide');
+            $table->string('category', 191);
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

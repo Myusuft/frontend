@@ -27,7 +27,7 @@ class CreateAreaDetailsTable extends Migration
             $table->unsignedInteger('airport')->nullable();
             $table->unsignedInteger('station')->nullable();
             $table->unsignedInteger('harbor')->nullable();
-            $table->unsignedInteger('Image_cover')->nullable();
+            $table->unsignedInteger('image_cover')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });

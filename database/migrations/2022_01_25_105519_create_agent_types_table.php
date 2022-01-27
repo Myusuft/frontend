@@ -17,7 +17,11 @@ class CreateAgentTypesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 191);
             $table->string('description', 191)->nullable();
+            $table->unsignedTinyInteger('deadline');
+            $table->string('status', 191);
+            $table->unsignedInteger('price');
             $table->timestamps();
+            $table->timestamp('deleted_at', 0)->nullable()->default(null);
         });
     }
 

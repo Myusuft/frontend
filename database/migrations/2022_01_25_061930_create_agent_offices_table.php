@@ -15,7 +15,7 @@ class CreateAgentOfficesTable extends Migration
     {
         Schema::create('agent_offices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name',191);
+            $table->string('name',191)->unique();
             $table->text('address');
             $table->text('description')->nullable();
             $table->string('image_icon',191)->nullable();

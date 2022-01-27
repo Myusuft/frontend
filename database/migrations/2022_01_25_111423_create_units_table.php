@@ -16,7 +16,7 @@ class CreateUnitsTable extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('property_type_id')->index('property_type_id');
-            $table->unsignedBigInteger('property_id')->index('property_id');
+            $table->unsignedBigInteger('project_id')->index('project_id');
             $table->string('unit_code', 191);
             $table->string('title', 191);
             $table->string('type', 191);

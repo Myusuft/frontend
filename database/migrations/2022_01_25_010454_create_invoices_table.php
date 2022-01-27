@@ -29,7 +29,7 @@ class CreateInvoicesTable extends Migration
             $table->text('note')->nullable();
             $table->unsignedInteger('price');
             $table->float('discount');
-            $table->unsignedInteger('tpta;');
+            $table->unsignedInteger('total');
             $table->date('expired_package_at');
             $table->timestamps();
             $table->timestamp('deleted_at', 0)->nullable()->default(null);

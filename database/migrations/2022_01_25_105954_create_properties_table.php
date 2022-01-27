@@ -22,7 +22,7 @@ class CreatePropertiesTable extends Migration
             $table->string('listing_package_type', 191)->default('Basic');
             $table->string('title', 191);
             $table->text('description')->nullable();
-            $table->string('provinces', 191);
+            $table->string('province', 191);
             $table->string('city', 191);
             $table->string('district', 191);
             $table->text('address');

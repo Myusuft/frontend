@@ -17,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('/power_supply/store', 'API\PowerSupplyManagementController@store');
+Route::get('/power_supply', 'API\PowerSupplyManagementController@index');
+Route::get('/power_supply/{id?}', 'API\PowerSupplyManagementController@show');
+Route::put('/power_supply/update', 'API\PowerSupplyManagementController@update');
+Route::delete('/power_supply/{id?}', 'API\PowerSupplyManagementController@destroy');

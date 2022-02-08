@@ -12,11 +12,8 @@ class PowerSupplyManagementController extends Controller
     //
     public function index()
     {
-        $powerSupplies = PowerSupply::latest()->get();
-        return response([
-            'code' => 200,
-            'result' => $powerSupplies
-        ], 200);
+        $powerSupplies = PowerSupply::all();
+        return $this->output(200, 'retrieved successfully', $powerSupplies);
     }
 
     public function store(Request $request)
@@ -32,28 +29,15 @@ class PowerSupplyManagementController extends Controller
         );
 
         if ($validator->fails()) {
-
-            return response()->json([
-                'code' => 401,
-                'message' => 'please insert the empty column',
-                'result'    => $validator->errors()
-            ], 401);
+            return $this->output(422, 'please insert the empty column');
         } else {
-
             $powerSupplies = PowerSupply::create([
                 'value' => $request->input('value')
             ]);
-
             if ($powerSupplies) {
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'successfully save data',
-                ], 200);
+                return $this->output(201, 'created successfully', $powerSupplies);
             } else {
-                return response()->json([
-                    'code' => 401,
-                    'message' => 'failed to save data',
-                ], 401);
+                return $this->output(401, 'not created');
             }
         }
     }
@@ -62,15 +46,9 @@ class PowerSupplyManagementController extends Controller
     {
         $powerSupplies = PowerSupply::whereId($id)->first();
         if ($powerSupplies) {
-            return response()->json([
-                'code' => 200,
-                'result'    => $powerSupplies
-            ], 200);
+            return $this->output(200, 'retrieved successfully', $powerSupplies);
         } else {
-            return response()->json([
-                'code' => 401,
-                'message' => 'data not found',
-            ], 401);
+            return $this->output(404, 'not found');
         }
     }
 
@@ -87,28 +65,16 @@ class PowerSupplyManagementController extends Controller
         );
 
         if ($validator->fails()) {
-
-            return response()->json([
-                'code' => 401,
-                'message' => 'please insert the empty column',
-                'result'    => $validator->errors()
-            ], 401);
+            return $this->output(422, 'please insert the empty column');
         } else {
-
-            $powerSupplies = PowerSupply::whereId($request->input('id'))->update([
-                'value' => $request->input('value')
-            ]);
+            $powerSupplies = PowerSupply::find($request->input('id'));
+            $powerSupplies->value = $request->input('value');
+            $powerSupplies->update();
 
             if ($powerSupplies) {
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Successfully update data',
-                ], 200);
+                return $this->output(200, 'updated successfully', $powerSupplies);
             } else {
-                return response()->json([
-                    'code' => 401,
-                    'message' => 'failed to update data',
-                ], 401);
+                return $this->output(401, 'not updated');
             }
         }
     }
@@ -119,16 +85,37 @@ class PowerSupplyManagementController extends Controller
         $powerSupplies->delete();
 
         if ($powerSupplies) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'Successfully delete data',
-            ], 200);
+            return $this->output(200, 'deleted successfully', $powerSupplies);
         } else {
-            return response()->json([
-                'code' => 400,
-                'message' => 'failed to delete data',
-            ], 400);
+            return $this->output(404, 'not deleted');
+        }
+    }
+
+    public function output($code, $message, $data = null)
+    {
+        $name = 'Power Supply';
+        if ($code == 200 || $code == 201) {
+            $result = [
+                'code' => $code,
+                'status' => 'success',
+                'message' => $name . " " . $message,
+                'data' => $data,
+            ];
+        } else if ($code == 401 || $code == 404) {
+            $result = [
+                'code' => $code,
+                'status' => 'fail',
+                'message' => $name . " " . $message,
+            ];
+        } else if ($code == 422) {
+            $result = [
+                'code' => $code,
+                'status' => 'error',
+                'message' => $message,
+            ];
         }
 
+        return response($result);
     }
+
 }

@@ -7,16 +7,13 @@ use App\Model\PropertyType;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
+
 class PropertyTypeManagementController extends Controller
 {
-    //
     public function index()
     {
-        $propertyTypes = PropertyType::latest()->get();
-        return response([
-            'code' => 200,
-            'result' => $propertyTypes
-        ], 200);
+        $propertyTypes = PropertyType::all();
+        return $this->output(200, 'retrieved successfully', $propertyTypes);
     }
 
     public function store(Request $request)
@@ -34,29 +31,16 @@ class PropertyTypeManagementController extends Controller
         );
 
         if ($validator->fails()) {
-
-            return response()->json([
-                'code' => 401,
-                'message' => 'please insert the empty column',
-                'result'    => $validator->errors()
-            ], 401);
+            return $this->output(422, 'please insert the empty column');
         } else {
-
             $propertyTypes = PropertyType::create([
                 'name'     => $request->input('name'),
                 'image_icon' => $request->input('image_icon')
             ]);
-
             if ($propertyTypes) {
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'successfully save data',
-                ], 200);
+                return $this->output(201, 'created successfully', $propertyTypes);
             } else {
-                return response()->json([
-                    'code' => 401,
-                    'message' => 'failed to save data',
-                ], 401);
+                return $this->output(401, 'not created');
             }
         }
     }
@@ -65,15 +49,9 @@ class PropertyTypeManagementController extends Controller
     {
         $propertyTypes = PropertyType::whereId($id)->first();
         if ($propertyTypes) {
-            return response()->json([
-                'code' => 200,
-                'result'    => $propertyTypes
-            ], 200);
+            return $this->output(200, 'retrieved successfully', $propertyTypes);
         } else {
-            return response()->json([
-                'code' => 401,
-                'message' => 'data not found',
-            ], 401);
+            return $this->output(404, 'not found');
         }
     }
 
@@ -92,29 +70,17 @@ class PropertyTypeManagementController extends Controller
         );
 
         if ($validator->fails()) {
-
-            return response()->json([
-                'code' => 401,
-                'message' => 'please insert the empty column',
-                'result'    => $validator->errors()
-            ], 401);
+            return $this->output(422, 'please insert the empty column');
         } else {
-
-            $propertyTypes = PropertyType::whereId($request->input('id'))->update([
-                'name'     => $request->input('name'),
-                'image_icon' => $request->input('image_icon')
-            ]);
+            $propertyTypes = PropertyType::find($request->input('id'));
+            $propertyTypes->name = $request->input('name');
+            $propertyTypes->image_icon = $request->input('image_icon');
+            $propertyTypes->update();
 
             if ($propertyTypes) {
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Successfully update data',
-                ], 200);
+                return $this->output(200, 'updated successfully', $propertyTypes);
             } else {
-                return response()->json([
-                    'code' => 401,
-                    'message' => 'failed to update data',
-                ], 401);
+                return $this->output(401, 'not updated');
             }
         }
     }
@@ -123,18 +89,37 @@ class PropertyTypeManagementController extends Controller
     {
         $propertyTypes = PropertyType::findOrFail($id);
         $propertyTypes->delete();
-
         if ($propertyTypes) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'Successfully delete data',
-            ], 200);
+            return $this->output(200, 'deleted successfully', $propertyTypes);
         } else {
-            return response()->json([
-                'code' => 400,
-                'message' => 'failed to delete data',
-            ], 400);
+            return $this->output(404, 'not deleted');
+        }
+    }
+
+    public function output($code, $message, $data = null)
+    {
+        $name = 'Property Type';
+        if ($code == 200 || $code == 201) {
+            $result = [
+                'code' => $code,
+                'status' => 'success',
+                'message' => $name . " " . $message,
+                'data' => $data,
+            ];
+        } else if ($code == 401 || $code == 404) {
+            $result = [
+                'code' => $code,
+                'status' => 'fail',
+                'message' => $name . " " . $message,
+            ];
+        } else if ($code == 422) {
+            $result = [
+                'code' => $code,
+                'status' => 'error',
+                'message' => $message,
+            ];
         }
 
+        return response($result);
     }
 }

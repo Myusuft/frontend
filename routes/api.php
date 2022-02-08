@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/certificate/type/store', 'API\CertificateTypeManagementController@store');
+Route::get('/certificate/type', 'API\CertificateTypeManagementController@index');
+Route::get('/certificate/type/{id?}', 'API\CertificateTypeManagementController@show');
+Route::put('/certificate/type/update', 'API\CertificateTypeManagementController@update');
+Route::delete('/certificate/type/{id?}', 'API\CertificateTypeManagementController@destroy');

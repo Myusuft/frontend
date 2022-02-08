@@ -12,11 +12,8 @@ class ListingTypeManagementController extends Controller
     //
     public function index()
     {
-        $listingTypes = ListingType::latest()->get();
-        return response([
-            'code' => 200,
-            'result' => $listingTypes
-        ], 200);
+        $listingTypes = ListingType::all();
+        return $this->output(200, 'retrieved successfully', $listingTypes);
     }
 
     public function store(Request $request)
@@ -38,31 +35,18 @@ class ListingTypeManagementController extends Controller
         );
 
         if ($validator->fails()) {
-
-            return response()->json([
-                'code' => 401,
-                'message' => 'please insert the empty column',
-                'result'    => $validator->errors()
-            ], 401);
+            return $this->output(422, 'please insert the empty column');
         } else {
-
             $listingTypes = ListingType::create([
                 'name'     => $request->input('name'),
                 'description' => $request->input('description'),
                 'type_listing' => $request->input('type_listing'),
                 'image_icon' => $request->input('image_icon')
             ]);
-
             if ($listingTypes) {
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'successfully save data',
-                ], 200);
+                return $this->output(201, 'created successfully', $listingTypes);
             } else {
-                return response()->json([
-                    'code' => 401,
-                    'message' => 'failed to save data',
-                ], 401);
+                return $this->output(401, 'not created');
             }
         }
     }
@@ -71,15 +55,9 @@ class ListingTypeManagementController extends Controller
     {
         $listingTypes = ListingType::whereId($id)->first();
         if ($listingTypes) {
-            return response()->json([
-                'code' => 200,
-                'result'    => $listingTypes
-            ], 200);
+            return $this->output(200, 'retrieved successfully', $listingTypes);
         } else {
-            return response()->json([
-                'code' => 401,
-                'message' => 'data not found',
-            ], 401);
+            return $this->output(404, 'not found');
         }
     }
 
@@ -102,31 +80,19 @@ class ListingTypeManagementController extends Controller
         );
 
         if ($validator->fails()) {
-
-            return response()->json([
-                'code' => 401,
-                'message' => 'please insert the empty column',
-                'result'    => $validator->errors()
-            ], 401);
+            return $this->output(422, 'please insert the empty column');
         } else {
-
-            $listingTypes = ListingType::whereId($request->input('id'))->update([
-                'name'     => $request->input('name'),
-                'description' => $request->input('description'),
-                'type_listing' => $request->input('type_listing'),
-                'image_icon' => $request->input('image_icon')
-            ]);
-
+            $listingTypes = ListingType::find($request->input('id'));
+            $listingTypes->name = $request->input('name');
+            $listingTypes->description = $request->input('description');
+            $listingTypes->type_listing = $request->input('type_listing');
+            $listingTypes->image_icon = $request->input('image_icon');
+            $listingTypes->update();
+            
             if ($listingTypes) {
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Successfully update data',
-                ], 200);
+                return $this->output(200, 'updated successfully', $listingTypes);
             } else {
-                return response()->json([
-                    'code' => 401,
-                    'message' => 'failed to update data',
-                ], 401);
+                return $this->output(401, 'not updated');
             }
         }
     }
@@ -137,16 +103,36 @@ class ListingTypeManagementController extends Controller
         $listingTypes->delete();
 
         if ($listingTypes) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'Successfully delete data',
-            ], 200);
+            return $this->output(200, 'deleted successfully', $listingTypes);
         } else {
-            return response()->json([
-                'code' => 400,
-                'message' => 'failed to delete data',
-            ], 400);
+            return $this->output(404, 'not deleted');
+        }
+    }
+
+    public function output($code, $message, $data = null)
+    {
+        $name = 'Listing Type';
+        if ($code == 200 || $code == 201) {
+            $result = [
+                'code' => $code,
+                'status' => 'success',
+                'message' => $name . " " . $message,
+                'data' => $data,
+            ];
+        } else if ($code == 401 || $code == 404) {
+            $result = [
+                'code' => $code,
+                'status' => 'fail',
+                'message' => $name . " " . $message,
+            ];
+        } else if ($code == 422) {
+            $result = [
+                'code' => $code,
+                'status' => 'error',
+                'message' => $message,
+            ];
         }
 
+        return response($result);
     }
 }

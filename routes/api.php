@@ -47,3 +47,16 @@ Route::get('/infrastructure/type', 'API\InfrastructureTypeManagementController@i
 Route::get('/infrastructure/type/{id?}', 'API\InfrastructureTypeManagementController@show');
 Route::put('/infrastructure/type/update', 'API\InfrastructureTypeManagementController@update');
 Route::delete('/infrastructure/type/{id?}', 'API\InfrastructureTypeManagementController@destroy');
+
+Route::post('/facility/type/store', 'API\FacilityTypeManagementController@store');
+Route::get('/facility/type', 'API\FacilityTypeManagementController@index');
+Route::get('/facility/type/{id?}', 'API\FacilityTypeManagementController@show');
+Route::put('/facility/type/update', 'API\FacilityTypeManagementController@update');
+Route::delete('/facility/type/{id?}', 'API\FacilityTypeManagementController@destroy');
+
+Route::post('/advantage/type/store', 'API\AdvantageTypeManagementController@store');
+Route::get('/advantage/type', 'API\AdvantageTypeManagementController@index');
+Route::get('/advantage/type/{id?}', 'API\AdvantageTypeManagementController@show');
+Route::put('/advantage/type/update', 'API\AdvantageTypeManagementController@update');
+Route::delete('/advantage/type/{id?}', 'API\AdvantageTypeManagementController@destroy');
+

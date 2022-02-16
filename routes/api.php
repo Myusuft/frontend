@@ -42,6 +42,12 @@ Route::get('/property/type/{id?}', 'API\PropertyTypeManagementController@show');
 Route::put('/property/type/update', 'API\PropertyTypeManagementController@update');
 Route::delete('/property/type/{id?}', 'API\PropertyTypeManagementController@destroy');
 
+Route::post('/developer/type/store', 'API\DeveloperTypeManagementController@store');
+Route::get('/developer/type', 'API\DeveloperTypeManagementController@index');
+Route::get('/developer/type/{id?}', 'API\DeveloperTypeManagementController@show');
+Route::put('/developer/type/update', 'API\DeveloperTypeManagementController@update');
+Route::delete('/developer/type/{id?}', 'API\DeveloperTypeManagementController@destroy');
+
 Route::post('/property/type/store', 'API\PropertyTypeManagementController@store');
 Route::get('/property/type', 'API\PropertyTypeManagementController@index');
 Route::get('/property/type/{id?}', 'API\PropertyTypeManagementController@show');

@@ -42,6 +42,18 @@ Route::get('/property/type/{id?}', 'API\PropertyTypeManagementController@show');
 Route::put('/property/type/update', 'API\PropertyTypeManagementController@update');
 Route::delete('/property/type/{id?}', 'API\PropertyTypeManagementController@destroy');
 
+Route::post('/property/type/store', 'API\PropertyTypeManagementController@store');
+Route::get('/property/type', 'API\PropertyTypeManagementController@index');
+Route::get('/property/type/{id?}', 'API\PropertyTypeManagementController@show');
+Route::put('/property/type/update', 'API\PropertyTypeManagementController@update');
+Route::delete('/property/type/{id?}', 'API\PropertyTypeManagementController@destroy');
+
+Route::post('/agent/type/store', 'API\AgentTypeManagementController@store');
+Route::get('/agent/type', 'API\AgentTypeManagementController@index');
+Route::get('/agent/type/{id?}', 'API\AgentTypeManagementController@show');
+Route::put('/agent/type/update', 'API\AgentTypeManagementController@update');
+Route::delete('/agent/type/{id?}', 'API\AgentTypeManagementController@destroy');
+
 Route::post('/infrastructure/type/store', 'API\InfrastructureTypeManagementController@store');
 Route::get('/infrastructure/type', 'API\InfrastructureTypeManagementController@index');
 Route::get('/infrastructure/type/{id?}', 'API\InfrastructureTypeManagementController@show');
@@ -59,4 +71,3 @@ Route::get('/advantage/type', 'API\AdvantageTypeManagementController@index');
 Route::get('/advantage/type/{id?}', 'API\AdvantageTypeManagementController@show');
 Route::put('/advantage/type/update', 'API\AdvantageTypeManagementController@update');
 Route::delete('/advantage/type/{id?}', 'API\AdvantageTypeManagementController@destroy');
-

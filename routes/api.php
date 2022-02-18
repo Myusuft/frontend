@@ -18,6 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/auth/register', 'Auth\RegisterController');
+Route::post('/auth/login', 'Auth\LoginController');
+Route::post('/auth/logout', 'Auth\LoginController@logout')->middleware('auth:api');
+
 Route::post('/certificate/type/store', 'API\CertificateTypeManagementController@store');
 Route::get('/certificate/type', 'API\CertificateTypeManagementController@index');
 Route::get('/certificate/type/{id?}', 'API\CertificateTypeManagementController@show');

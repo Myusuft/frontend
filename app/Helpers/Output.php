@@ -4,15 +4,15 @@
  * Funtion = untuk menghasilkan output sesuai standar
  * 
  * @parameter = String|$code|code response service
+ * @parameter = String|$nama|variable untuk pesan response service
  * @parameter = String|$message|pesan response service
  * @parameter = Object|$data|data response service
  * @return = hasil response dalam bentuk JSON 
  * 
  ***/
 
-function outputResponse($code, $message, $data = null)
+function outputResponse($code, $name, $message, $data = null)
 {
-    $name = 'Advantage Type';
     if ($code == 200 || $code == 201) {
         $result = [
             'code' => $code,

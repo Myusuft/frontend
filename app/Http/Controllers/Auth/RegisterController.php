@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\User;
+use App\Model\UserData;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -21,13 +22,39 @@ class RegisterController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
-        $user = User::create([
-            'account_id' => $this->generate_account_id(),
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'user',
-            'status' => 'active',
-        ]);
+        DB::beginTransaction();
+        try {
+            $user = new User();
+            $user->account_id = $this->generate_account_id();
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->role = 'user';
+            $user->status = 'active';
+            $user->save();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                'message' => 'failed to store user data',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        try {
+            $userData = new UserData();
+            $userData->user_id = $user->id;
+            $userData->fullname = $request->fullname;
+            $userData->phone = $request->phone;
+            $userData->city = $request->city;
+            $userData->province = $request->province;
+            $userData->save();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                'message' => 'failed to store user data',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        DB::commit();
+        
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
@@ -41,7 +68,8 @@ class RegisterController extends Controller
         return response()->json([
             'code' => Response::HTTP_OK,
             'message' => 'success',
-            'data' => $user,
+            'user' => $user,
+            'user_data' => $userData,
             'meta' => [
                 'token' => $accessToken,
             ],
@@ -52,4 +80,5 @@ class RegisterController extends Controller
     {
         return "ID_" . Carbon::now()->format('mYdH') . random_int(1000, 9999);
     }
+
 }

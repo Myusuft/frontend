@@ -61,7 +61,7 @@ class ListingTypeManagementController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make(
             $request->all(),
@@ -82,7 +82,7 @@ class ListingTypeManagementController extends Controller
         if ($validator->fails()) {
             return $this->output(422, 'please insert the empty column');
         } else {
-            $listingTypes = ListingType::find($request->input('id'));
+            $listingTypes = ListingType::find($id);
             $listingTypes->name = $request->input('name');
             $listingTypes->description = $request->input('description');
             $listingTypes->type_listing = $request->input('type_listing');

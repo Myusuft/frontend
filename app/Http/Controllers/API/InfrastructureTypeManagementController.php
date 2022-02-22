@@ -58,7 +58,7 @@ class InfrastructureTypeManagementController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make(
             $request->all(),
@@ -77,7 +77,7 @@ class InfrastructureTypeManagementController extends Controller
         if ($validator->fails()) {
             return $this->output(422, 'please insert the empty column');
         } else {
-            $infrastructureTypes = InfrastructureType::find($request->input('id'));
+            $infrastructureTypes = InfrastructureType::find($id);
             $infrastructureTypes->name = $request->input('name');
             $infrastructureTypes->description = $request->input('description');
             $infrastructureTypes->image_icon = $request->input('image_icon');

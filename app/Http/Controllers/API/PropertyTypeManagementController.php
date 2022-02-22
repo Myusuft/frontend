@@ -55,7 +55,7 @@ class PropertyTypeManagementController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make(
             $request->all(),
@@ -72,7 +72,7 @@ class PropertyTypeManagementController extends Controller
         if ($validator->fails()) {
             return $this->output(422, 'please insert the empty column');
         } else {
-            $propertyTypes = PropertyType::find($request->input('id'));
+            $propertyTypes = PropertyType::find($id);
             $propertyTypes->name = $request->input('name');
             $propertyTypes->image_icon = $request->input('image_icon');
             $propertyTypes->update();

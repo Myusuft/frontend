@@ -63,7 +63,7 @@ class DeveloperTypeManagementController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make(
             $request->all(),
@@ -84,7 +84,7 @@ class DeveloperTypeManagementController extends Controller
         if ($validator->fails()) {
             return $this->output(422, 'please insert the empty column');
         } else {
-            $developerTypes = DeveloperType::find($request->input('id'));
+            $developerTypes = DeveloperType::find($id);
             $developerTypes->name = $request->input('name');
             $developerTypes->description = $request->input('description');
             $developerTypes->deadline = $request->input('deadline');

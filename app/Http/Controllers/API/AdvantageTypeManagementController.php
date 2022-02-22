@@ -58,7 +58,7 @@ class AdvantageTypeManagementController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make(
             $request->all(),
@@ -77,7 +77,8 @@ class AdvantageTypeManagementController extends Controller
         if ($validator->fails()) {
             return $this->output(422, 'please insert the empty column');
         } else {
-            $advantageTypes = AdvantageType::find($request->input('id'));
+            // $advantageTypes = AdvantageType::find($request->input('id'));
+            $advantageTypes = AdvantageType::find($id);
             $advantageTypes->name = $request->input('name');
             $advantageTypes->description = $request->input('description');
             $advantageTypes->image_icon = $request->input('image_icon');

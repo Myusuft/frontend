@@ -1,5 +1,6 @@
 <?php
 
+use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,8 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return ["Role : ".$request->user()->getRoleNames(), $request->user()];
+//     // return $request->user();    
+// });
+Route::middleware(['auth:api', 'role:ADMIN'])->get('/user', function (Request $request) {
+    return ["Role : ".$request->user()->getRoleNames(), $request->user()];
+    // return $request->user();    
 });
 
 Route::post('/auth/register', 'Auth\RegisterController');
@@ -76,8 +82,10 @@ Route::get('/facility/type/{id?}', 'API\FacilityTypeManagementController@show');
 Route::put('/facility/type/update', 'API\FacilityTypeManagementController@update');
 Route::delete('/facility/type/{id?}', 'API\FacilityTypeManagementController@destroy');
 
-Route::post('/advantage/type/store', 'API\AdvantageTypeManagementController@store');
-Route::get('/advantage/type', 'API\AdvantageTypeManagementController@index');
-Route::get('/advantage/type/{id?}', 'API\AdvantageTypeManagementController@show');
-Route::put('/advantage/type/update', 'API\AdvantageTypeManagementController@update');
-Route::delete('/advantage/type/{id?}', 'API\AdvantageTypeManagementController@destroy');
+// Route::post('/advantage/type/store', 'API\AdvantageTypeManagementController@store');
+// Route::get('/advantage/type', 'API\AdvantageTypeManagementController@index');
+// Route::get('/advantage/type/{id?}', 'API\AdvantageTypeManagementController@show');
+// Route::put('/advantage/type/update', 'API\AdvantageTypeManagementController@update');
+// Route::delete('/advantage/type/{id?}', 'API\AdvantageTypeManagementController@destroy');
+
+Route::resource('/advantage/type', 'API\AdvantageTypeManagementController',['except' => ['create','edit']]);

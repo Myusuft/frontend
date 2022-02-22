@@ -28,9 +28,10 @@ class RegisterController extends Controller
             $user->account_id = $this->generate_account_id();
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
-            $user->role = 'user';
+            $user->role = 'USER';
             $user->status = 'active';
             $user->save();
+            $user->assignRole('USER');
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json([

@@ -55,7 +55,7 @@ class CertificateTypeManagementController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make(
             $request->all(),
@@ -72,7 +72,7 @@ class CertificateTypeManagementController extends Controller
         if ($validator->fails()) {
             return $this->output(422, 'please insert the empty column');
         } else {
-            $certificateTypes = CertificateType::find($request->input('id'));
+            $certificateTypes = CertificateType::find($id);
             $certificateTypes->name = $request->input('name');
             $certificateTypes->description = $request->input('description');
             $certificateTypes->update();

@@ -58,7 +58,7 @@ class FacilityTypeManagementController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make(
             $request->all(),
@@ -77,7 +77,7 @@ class FacilityTypeManagementController extends Controller
         if ($validator->fails()) {
             return $this->output(422, 'please insert the empty column');
         } else {
-            $facilityTypes = FacilityType::find($request->input('id'));
+            $facilityTypes = FacilityType::find($id);
             $facilityTypes->name = $request->input('name');
             $facilityTypes->category = $request->input('category');
             $facilityTypes->image_icon = $request->input('image_icon');

@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () { return view('admin.layouts.base'); });
+
+
 Route::get('/{any}', function () {
-    return view('example_page');
+    return view('admin.homepage');
 })->where('any', '.*');
